@@ -18,7 +18,7 @@
 -THEN the deposits or expenses added while they were offline are added to their transaction history and their totals are updated
 
 ### Screenshot
-![]https://github.com/jhwang2525/budget-tracker/blob/main/models/budget.JPG?raw=true
+![](https://github.com/jhwang2525/budget-tracker/blob/main/models/budget.JPG?raw=true)
 
 ### Heroku Depolyed Link
 https://budgettrackjs.herokuapp.com/
