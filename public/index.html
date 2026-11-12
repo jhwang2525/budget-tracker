@@ -1,47 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="theme-color" content="#317EFB">
-  <link rel="shortcut icon" href="icons/icon-192x192.png" type="image/x-icon">
-
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="css/styles.css">
-
-  <title>Budget Tracker</title>
-</head>
-<body>
-  <div class="wrapper">
-    <div class="total">
-      <div class="total">Your total is: $<span id="total">0</span></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#4f46e5" />
+    <title>Budget Tracker</title>
+    <meta name="description" content="Track deposits and expenses online or offline. Offline entries sync when you reconnect." />
+    <link rel="icon" href="/icons/icon-192x192.png" type="image/png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div id="offline-banner" class="banner" hidden>
+      You're offline. New transactions are saved on this device and will sync when you reconnect.
     </div>
 
-    <div class="form">
-      <input type="text" id="t-name" placeholder="Name of transaction" />
-      <input type="number" min="0" id="t-amount" placeholder="Transaction amount" />
-      <button id="add-btn"><i class="fa fa-plus buttons"></i> Add Funds</button>
-      <button id="sub-btn"><i class="fa fa-minus"></i> Subtract Funds</button>
-      <p class="error"></p>
-    </div>
+    <header class="topbar">
+      <div class="wrap topbar-inner">
+        <span class="brand"><span class="brand-mark" aria-hidden="true">$</span> Budget Tracker</span>
+        <span class="sync" id="sync-status"></span>
+      </div>
+    </header>
 
-    <div class="transactions">
-      <table>
-        <thead>
-          <th>Transaction</th>
-          <th>Amount</th>
-        </thead>
-        <tbody id="tbody">
-          
-        </tbody>
-      </table>
-    </div>
-    
-    <canvas id="myChart"></canvas>
-  </div>
+    <main class="wrap main">
+      <section class="stats">
+        <article class="stat balance">
+          <p class="stat-label">Current balance</p>
+          <p class="stat-value" id="total">$0.00</p>
+        </article>
+        <article class="stat">
+          <p class="stat-label">Income</p>
+          <p class="stat-value positive" id="income">$0.00</p>
+        </article>
+        <article class="stat">
+          <p class="stat-label">Expenses</p>
+          <p class="stat-value negative" id="expenses">$0.00</p>
+        </article>
+      </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-  <script src="js/index.js"></script>
-</body>
+      <div class="grid">
+        <section class="card">
+          <h2>Add a transaction</h2>
+          <form class="form" id="t-form" novalidate>
+            <label for="t-name">Description</label>
+            <input type="text" id="t-name" placeholder="e.g. Paycheck, Groceries" maxlength="60" />
+            <label for="t-amount">Amount</label>
+            <div class="amount">
+              <span aria-hidden="true">$</span>
+              <input type="number" min="0.01" step="0.01" id="t-amount" placeholder="0.00" inputmode="decimal" />
+            </div>
+            <p class="error" role="alert"></p>
+            <div class="buttons">
+              <button type="button" class="btn add" id="add-btn">+ Add funds</button>
+              <button type="button" class="btn sub" id="sub-btn">− Subtract funds</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="card chart-card">
+          <h2>Balance over time</h2>
+          <div class="chart-wrap"><canvas id="myChart" aria-label="Balance over time chart" role="img"></canvas></div>
+        </section>
+      </div>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Transactions</h2>
+          <span class="muted" id="t-count"></span>
+        </div>
+        <ul class="t-list" id="tbody"></ul>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="/js/db.js"></script>
+    <script src="/js/index.js"></script>
+  </body>
 </html>
